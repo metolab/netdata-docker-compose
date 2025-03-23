@@ -1,0 +1,6 @@
+config/
+!config/netdata.conf
+!config/go.d/
+!config/go.d/prometheus.conf
+lib
+.env

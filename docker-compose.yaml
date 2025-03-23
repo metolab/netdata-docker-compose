@@ -1,0 +1,41 @@
+services:
+  netdata:
+    env_file: ".env"
+    image: netdata/netdata
+    hostname: ${HOSTNAME:-netdata}
+    restart: unless-stopped
+    environment:
+      - DOCKER_USR=root
+      - DISABLE_TELEMETRY=1
+      - NETDATA_CLAIM_URL=
+      - NETDATA_CLAIM_TOKEN=
+      - DO_NOT_TRACK=1
+      - NETDATA_DISABLE_CLOUD=1
+    volumes:
+      - /:/host/root:ro,rslave
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/log:/host/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/dbus:/run/dbus:ro
+
+      - ./config:/etc/netdata:rw
+      - ./lib:/var/lib/netdata:rw
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor=unconfined
+    ports:
+      - 19999:19999
+
+  ipmi-exporter:
+    image: prometheuscommunity/ipmi-exporter
+    restart: unless-stopped
+    user: root
+    devices:
+      - /dev/ipmi0:/dev/ipmi0
