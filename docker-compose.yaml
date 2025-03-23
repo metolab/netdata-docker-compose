@@ -4,6 +4,7 @@ services:
     hostname: ${HOSTNAME:-netdata}
     restart: unless-stopped
     environment:
+      - TZ=Asia/Shanghai
       - DOCKER_USR=root
       - DISABLE_TELEMETRY=1
       - NETDATA_CLAIM_URL=

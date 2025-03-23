@@ -5,6 +5,7 @@ services:
       - SYS_PTRACE
       - SYS_ADMIN
     environment:
+      - TZ=Asia/Shanghai
       - DOCKER_USR=root
       - DISABLE_TELEMETRY=1
       - NETDATA_CLAIM_URL=
