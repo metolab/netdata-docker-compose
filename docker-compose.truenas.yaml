@@ -1,11 +1,4 @@
 services:
-  ipmi-exporter:
-    devices:
-      - /dev/ipmi0:/dev/ipmi0
-    image: prometheuscommunity/ipmi-exporter
-    restart: unless-stopped
-    user: root
-
   netdata:
     hostname: nas-tohru
     cap_add:
@@ -24,6 +17,9 @@ services:
     restart: unless-stopped
     security_opt:
       - apparmor=unconfined
+    user: root
+    devices:
+      - /dev/ipmi0:/dev/ipmi0
     volumes:
       - /:/host/root:ro,rslave
       - /etc/passwd:/host/etc/passwd:ro
@@ -35,6 +31,6 @@ services:
       - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /run/dbus:/run/dbus:ro
-      
+
       - /mnt/tohrupool/service/netdata/config:/etc/netdata:rw
       - /mnt/tohrupool/service/netdata/lib:/var/lib/netdata:rw

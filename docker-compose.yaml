@@ -1,6 +1,5 @@
 services:
   netdata:
-    env_file: ".env"
     image: netdata/netdata
     hostname: ${HOSTNAME:-netdata}
     restart: unless-stopped
@@ -11,6 +10,9 @@ services:
       - NETDATA_CLAIM_TOKEN=
       - DO_NOT_TRACK=1
       - NETDATA_DISABLE_CLOUD=1
+    user: root
+    devices:
+      - /dev/ipmi0:/dev/ipmi0
     volumes:
       - /:/host/root:ro,rslave
       - /etc/passwd:/host/etc/passwd:ro
@@ -32,10 +34,3 @@ services:
       - apparmor=unconfined
     ports:
       - 19999:19999
-
-  ipmi-exporter:
-    image: prometheuscommunity/ipmi-exporter
-    restart: unless-stopped
-    user: root
-    devices:
-      - /dev/ipmi0:/dev/ipmi0

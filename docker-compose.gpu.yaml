@@ -10,6 +10,9 @@ services:
       - NETDATA_CLAIM_TOKEN=
       - DO_NOT_TRACK=1
       - NETDATA_DISABLE_CLOUD=1
+    user: root
+    devices:
+      - /dev/ipmi0:/dev/ipmi0
     volumes:
       - /:/host/root:ro,rslave
       - /etc/passwd:/host/etc/passwd:ro
@@ -38,10 +41,3 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-
-  ipmi-exporter:
-    image: prometheuscommunity/ipmi-exporter
-    restart: unless-stopped
-    user: root
-    devices:
-      - /dev/ipmi0:/dev/ipmi0
