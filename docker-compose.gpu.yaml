@@ -3,6 +3,7 @@ services:
     image: netdata/netdata
     hostname: ${HOSTNAME:-netdata}
     restart: unless-stopped
+    pull_policy: always
     environment:
       - TZ=Asia/Shanghai
       - DOCKER_USR=root
